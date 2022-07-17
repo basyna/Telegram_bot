@@ -12,9 +12,7 @@ from dotenv import load_dotenv
 from exceptions import (
     EndpointError,
     ExceptionWithSendingError,
-    HomeworksKeyError,
-    HomeworksListError,
-    ParseError,
+    HomeworksTypeError,
     SendingError
 )
 
@@ -91,14 +89,19 @@ def get_api_answer(current_timestamp):
 
 def check_response(response):
     """Проверка ответа сервера."""
+    if not isinstance(response, dict):
+        raise TypeError(
+            'В ответе пришёл не словарь'
+        )
     try:
         hw_list = response['homeworks']
+        hw_date = response['current_date']
     except KeyError as error:
-        raise HomeworksKeyError(
-            f'Ключ {error} не обнаружен.'
+        raise KeyError(
+            f'Ключ {error} не обнаружен на момент времени {hw_date}.'
         )
     if not isinstance(hw_list, list):
-        raise HomeworksListError(
+        raise HomeworksTypeError(
             'Объект homeworks не является списком.'
         )
     return hw_list
@@ -110,8 +113,8 @@ def parse_status(homework):
         homework_status = homework['status']
         homework_name = homework['homework_name']
         verdict = HOMEWORK_VERDICTS[homework_status]
-    except ParseError as error:
-        raise ParseError(
+    except KeyError as error:
+        raise KeyError(
             f'Ошибка получения данных по ключу "{error}"'
             f' в функции parse_status.'
         )
@@ -143,7 +146,7 @@ def main():
             current_timestamp = response.get(
                 'current_date', current_timestamp
             )
-        except ExceptionWithSendingError as error:
+        except (ExceptionWithSendingError, KeyError, TypeError) as error:
             if error != last_error:
                 send_message(bot, error)
                 last_error = error

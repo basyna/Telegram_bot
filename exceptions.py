@@ -22,13 +22,7 @@ class HomeworksKeyError(ExceptionWithSendingError):
     pass
 
 
-class HomeworksListError(ExceptionWithSendingError):
+class HomeworksTypeError(ExceptionWithSendingError):
     """По ключу homeworks возвращается не список."""
-
-    pass
-
-
-class ParseError(ExceptionWithSendingError):
-    """Ошибка при получении данных из работы."""
 
     pass

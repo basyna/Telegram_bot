@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 Записать в переменные окружения (файл .env) необходимые ключи:
 * `API_YANDEX_URL`  url адрес сервера api яндекс практикума
-([https://practicum.yandex.ru/api/user_api/homework_statuses/](https://practicum.yandex.ru/api/user_api/homework_statuses/))
+(https://practicum.yandex.ru/api/user_api/homework_statuses/)
 * `PRAKTIKUM_TOKEN` токен аутентификации Яндекс.Практикума
 * `TELEGRAM_TOKEN`  телеграмм токен созданного вами бота
 * `CHAT_ID`         id чата с вами
